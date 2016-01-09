@@ -1,0 +1,12 @@
+.active {
+    background-color: #3c763d;
+    background-image: url('');
+}
+
+.navigable-item {
+    min-height: 1em;
+}
+
+.enter {
+    background-color: red;
+}
