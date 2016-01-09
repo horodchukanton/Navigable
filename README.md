@@ -1,7 +1,8 @@
 # Navigable
 Navigable.js allows you to create a structure controlled both by arrow keys and mouse.
 
-<h2>Navigable example</h2>
+https://horodchukanton.github.io/navigable
+
 <h3>Synopsis</h3>
 Navigable.js allows you to create a structure controlled both by arrow keys and mouse.
 
