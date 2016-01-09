@@ -1,6 +1,10 @@
 .active {
     background-color: #3c763d;
-    background-image: url('');
+}
+
+.shmactive {
+    background-color: #1b2676;
+    color: snow;
 }
 
 .navigable-item {

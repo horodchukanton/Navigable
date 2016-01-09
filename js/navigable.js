@@ -14,6 +14,7 @@ var Navigable = (function () {
     var active_row = 0;
     var active_col = 0;
 
+    // current active element CSS class name
     var activeClassName = 'active';
 
     // if vertical need to change arrow bindings;
@@ -96,7 +97,7 @@ var Navigable = (function () {
                 console.log(row + ' : ' + col);
 
                 var $cell = $(self.table[row].cells[col]);
-                $cell.addClass('active');
+                $cell.addClass(activeClassName);
             };
             self.init();
         };
@@ -240,6 +241,11 @@ var Navigable = (function () {
 
     function init($navigable) {
 
+        var className_ = $navigable.attr('data-active-name');
+        if (typeof className_ != 'undefined' && className_ != '') {
+            Navigable.setActiveClassName(className_);
+        }
+
         NavigableMenu.init($navigable);
         bindHoverLogic($navigable);
 
@@ -359,10 +365,16 @@ var Navigable = (function () {
         vertical = bool;
     }
 
+    function setActiveClassName(newName) {
+
+        activeClassName = newName;
+    }
+
     return {
         init: init,
         setActiveCell: setActiveCell,
-        setVertical: setVertical
+        setVertical: setVertical,
+        setActiveClassName: setActiveClassName
     }
 
 })();
