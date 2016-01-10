@@ -142,7 +142,7 @@ var Navigable = (function () {
                 var max = self.divs.items_count - 1;
                 var elements_end_row = self.divs.items_count - ((self.divs.rows_num - 1) * self.cols_per_row);
                 var min = 0;
-                var snake = false;
+                var snake = ($div.attr('data-snake') == 'true') || false;
                 if (!snake) {
                     for (r = 0; r <= self.divs.rows_num; r++) {
                         if (r == self.divs.rows_num && col > max && next_col > 0) {
