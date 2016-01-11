@@ -2,7 +2,7 @@
  * Created by Anykey on 07.01.2016.
  *
  * Navigable.js allows you to create a structure controlled both by arrow keys and mouse.
- * VERSION 0.5
+ * VERSION 0.7
  */
 
 $(function () {
