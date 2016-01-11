@@ -2,7 +2,7 @@
  * Created by Anykey on 07.01.2016.
  *
  * Navigable.js allows you to create a structure controlled both by arrow keys and mouse.
- * VERSION 0.1
+ * VERSION 0.7
  */
 
 $(function () {
@@ -13,6 +13,7 @@ var Navigable = (function () {
 
     var active_row = 0;
     var active_col = 0;
+    var next_col = 0;
 
     // current active element CSS class name
     var activeClassName = 'active';
@@ -109,10 +110,12 @@ var Navigable = (function () {
 
 
             this.init = function ($div) {
+                //        self.divs.rows_num = Math.ceil( (max + 1) / self.cols_per_row );
+                //         self.table.rows_num = rows.length;
                 var $items = $div.find('.navigable-item');
                 this.divs.items = [];
                 this.divs.items_count = $items.length;
-
+                this.divs.rows_num = Math.ceil(this.divs.items_count / self.cols_per_row);
                 $.each($items, function (index, item) {
                     var $item = $(item);
 
@@ -125,10 +128,9 @@ var Navigable = (function () {
 
             this.activate = function (row, col) {
                 col += self.cols_per_row * row;
-
-                col = checkBounds(col);
+                col = checkBounds(row, col);
                 row = 0;
-
+                next_col = 0;
                 var $item = this.divs.items[col];
                 console.log(row + ':' + col);
                 console.log($item);
@@ -136,26 +138,41 @@ var Navigable = (function () {
                 $item.addClass(activeClassName);
             };
 
-            function checkBounds(col) {
+            function checkBounds(row, col) {
                 var max = self.divs.items_count - 1;
+                var elements_end_row = self.divs.items_count - ((self.divs.rows_num - 1) * self.cols_per_row);
                 var min = 0;
-
-                if (col == max + 1) {
-                    col = 0;
+                var snake = ($div.attr('data-snake') == 'true') || false;
+                if (!snake) {
+                    for (r = 0; r <= self.divs.rows_num; r++) {
+                        if (r == self.divs.rows_num && col > max && next_col > 0) {
+                            col = col - elements_end_row;
+                        }
+                        else if (col == r * self.cols_per_row && next_col > 0) {
+                            col = col - self.cols_per_row;
+                            break;
+                        }
+                        else if (col == r * self.cols_per_row - 1 && next_col < 0) {
+                            if (r == self.divs.rows_num - 1) col = col + +elements_end_row;
+                            else col = col + +self.cols_per_row;
+                            break;
+                        }
+                    }
                 }
-                else if (col == min - 1) {
-                    col = max;
-                }
-                else if (col > max) {
+                if (col > max && row > 0) {
                     col = col % self.cols_per_row;
                 }
+                else if (col > max && row == 0) {
+                    col = min;
+                }
+                else if (col < min && row == 0) {
+                    col = max;
+                }
                 else if (col < min) {
-                    var offset = Math.abs(col) % self.cols_per_row;
-                    col = max - (offset) + 1;
-
+                    col = max - Math.abs(col) - elements_end_row + +self.cols_per_row;
                     //custom case
-                    if (col == max + 1) {
-                        col = max - self.cols_per_row + 1;
+                    if (col > max) {
+                        col = col - self.cols_per_row;
                     }
                 }
 
@@ -254,7 +271,10 @@ var Navigable = (function () {
 
     function left() {
         if (vertical) active_row--;
-        else active_col--;
+        else {
+            active_col--;
+            next_col--;
+        }
         refresh();
     }
 
@@ -266,7 +286,10 @@ var Navigable = (function () {
 
     function right() {
         if (vertical) active_row++;
-        else active_col++;
+        else {
+            active_col++;
+            next_col++;
+        }
         refresh();
     }
 
