@@ -13,4 +13,4 @@ Currently 3 types of structure is supported:
 <h3>Usage</h3>
 <p>Simply add 'navigable' class to parent container and 'navigable-item' class to items you want to control</p>
 <p>For vertical list add attribute <b>data-vertical="true"</b></p>
-<p>For vertical list and div based bootstrap layout specify a number of items in row via attribute <b>data-items_in_row="6"</b></p>
+<p>For vertical list and div based bootstrap layout specify a number of items in row via attribute <b>data-items_in_row="6"</b> (So script knows how many items it should go with "left" and "right" buttons)</p>
